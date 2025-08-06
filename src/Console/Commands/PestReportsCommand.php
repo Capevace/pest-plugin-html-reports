@@ -7,7 +7,7 @@ use Mateffy\HtmlReports\Services\StaticHtmlGenerator;
 
 class PestReportsCommand extends Command
 {
-	public $signature = 'test-report:generate 
+    public $signature = 'test-report:generate 
         {--input= : Path to JSON file with test results}
         {--output= : Output path for the HTML file}
         {--title= : Title for the report}
@@ -15,35 +15,35 @@ class PestReportsCommand extends Command
         {--editor=phpstorm : Default editor for deep links}
         {--repository= : GitHub repository (e.g., user/repo)}';
 
-	public $description = 'Generate a static HTML report from Pest test results';
+    public $description = 'Generate a static HTML report from Pest test results';
 
-	public function handle(StaticHtmlGenerator $generator): int
-	{
-		$this->comment('Generating report...');
+    public function handle(StaticHtmlGenerator $generator): int
+    {
+        $this->comment('Generating report...');
 
-		$inputPath = $this->option('input') ?? 'output.json';
-		$outputPath = $this->option('output') ?? 'pest-report.html';
+        $inputPath = $this->option('input') ?? 'output.json';
+        $outputPath = $this->option('output') ?? 'pest-report.html';
 
-		try {
-			$jsonData = file_get_contents($inputPath);
-			$html = $generator->generateHtmlFromJson($jsonData, [
-				'title' => $this->option('title') ?: 'Pest Test Results',
-				'projectPath' => $this->option('project-path') ?: '',
-				'selectedEditor' => $this->option('editor') ?: 'phpstorm',
-				'gitHubRepository' => $this->option('repository') ?: '',
-			]);
+        try {
+            $jsonData = file_get_contents($inputPath);
+            $html = $generator->generateHtmlFromJson($jsonData, [
+                'title' => $this->option('title') ?: 'Pest Test Results',
+                'projectPath' => $this->option('project-path') ?: '',
+                'selectedEditor' => $this->option('editor') ?: 'phpstorm',
+                'gitHubRepository' => $this->option('repository') ?: '',
+            ]);
 
-			file_put_contents($outputPath, $html);
+            file_put_contents($outputPath, $html);
 
-			$this->info('Static HTML report generated successfully: ' . $outputPath);
+            $this->info('Static HTML report generated successfully: '.$outputPath);
 
-			return self::SUCCESS;
-		} catch (\Exception $e) {
-			report($e);
+            return self::SUCCESS;
+        } catch (\Exception $e) {
+            report($e);
 
-			$this->error('Failed to generate report: ' . $e->getMessage());
+            $this->error('Failed to generate report: '.$e->getMessage());
 
-			return self::FAILURE;
-		}
-	}
+            return self::FAILURE;
+        }
+    }
 }

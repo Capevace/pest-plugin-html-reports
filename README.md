@@ -39,6 +39,13 @@ php artisan test-report:generate \
     --repository=your-username/your-repo
 ```
 
+### Environment Variables
+
+You can configure the output directory and filename of the JSON report by setting the following environment variables:
+
+-   `TEST_REPORT_DIR`: The directory where the JSON report will be saved. Defaults to `storage/framework/testing/reports`.
+-   `TEST_REPORT_FILENAME`: The filename of the JSON report. Defaults to `report-{{date}}-{{id}}.json`. The `{{date}}` and `{{id}}` placeholders will be replaced with the current date and a unique ID.
+
 ## How it works
 
 1. A Pest test is run
