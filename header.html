@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pest HTML Reports Header</title>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				background: #000;
+				color: #00ff41;
+				font-family: 'JetBrains Mono', 'Courier New', monospace;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: 100vh;
+			}
+			.screenshot-container {
+				width: 1200px;
+				height: 630px;
+				background: #0d0d0d;
+				border: 1px solid #333;
+				padding: 40px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				position: relative;
+				overflow: hidden;
+			}
+			.matrix-bg {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none;
+				opacity: 0.1;
+				z-index: 0;
+			}
+			.content {
+				position: relative;
+				z-index: 1;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				height: 100%;
+			}
+			.title-section {
+				text-align: left;
+			}
+			.ascii-title {
+				color: #00ff41;
+				font-size: 12px;
+				line-height: 1.1;
+				white-space: pre;
+				margin-bottom: 20px;
+				text-shadow: 0 0 5px #00ff41;
+			}
+			.description {
+				font-size: 20px;
+				color: #cccccc;
+				line-height: 1.6;
+				max-width: 700px;
+			}
+			.blink::after {
+				content: '█';
+				animation: blink 1.2s step-end infinite;
+				margin-left: 0.25rem;
+			}
+			@keyframes blink {
+				0%,
+				100% {
+					opacity: 1;
+				}
+				50% {
+					opacity: 0;
+				}
+			}
+			.bottom-section {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+			}
+			.status-grid {
+				display: flex;
+				gap: 20px;
+			}
+			.status-box {
+				background: #111;
+				border: 1px solid #333;
+				padding: 15px 20px;
+				min-width: 160px;
+			}
+			.status-title {
+				color: #666;
+				font-size: 14px;
+				margin-bottom: 5px;
+			}
+			.status-version {
+				color: #ffffff;
+				font-size: 22px;
+				font-weight: 700;
+			}
+			.status-version.pest {
+				color: #00ff41;
+				text-shadow: 0 0 5px #00ff41;
+			}
+			.footer-info {
+				color: #666;
+				font-size: 14px;
+				text-align: right;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="screenshot-container">
+			<canvas class="matrix-bg" id="matrix"></canvas>
+			<div class="content">
+				<div class="title-section">
+					<div class="ascii-title">
+						██████╗ ███████╗███████╗████████╗ ██████╗
+						███████╗██████╗ ██████╗ ██████╗ ████████╗███████╗
+						██╔══██╗██╔════╝██╔════╝╚══██╔══╝
+						██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝
+						██████╔╝█████╗ ███████╗ ██║ ██████╔╝█████╗ ██████╔╝██║
+						██║██████╔╝ ██║ ███████╗ ██╔═══╝ ██╔══╝ ╚════██║ ██║
+						██╔══██╗██╔══╝ ██╔═══╝ ██║ ██║██╔══██╗ ██║ ╚════██║ ██║
+						███████╗███████║ ██║ ██║ ██║███████╗██║ ╚██████╔╝██║ ██║
+						██║ ███████║ ╚═╝ ╚══════╝╚══════╝ ╚═╝ ╚═╝ ╚═╝╚══════╝╚═╝
+						╚═════╝ ╚═╝ ╚═╝ ╚═╝ ╚══════╝
+					</div>
+					<p class="description">
+						Interactively explore your Pest test results with a
+						single file .HTML report generated on every run.
+						<span class="blink"></span>
+					</p>
+				</div>
+
+				<div class="bottom-section">
+					<div class="status-grid">
+						<div class="status-box">
+							<div class="status-title">PHP</div>
+							<div class="status-version">8.2+</div>
+						</div>
+						<div class="status-box">
+							<div class="status-title">Laravel</div>
+							<div class="status-version">10-12</div>
+						</div>
+						<div class="status-box">
+							<div class="status-title">Pest</div>
+							<div class="status-version pest">v3</div>
+						</div>
+					</div>
+					<div class="footer-info">
+						<p>> composer require mateffy/html-reports-for-pest</p>
+						<p style="color: #444">Made by Lukas Mateffy</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// Matrix rain effect
+			const canvas = document.getElementById('matrix');
+			const ctx = canvas.getContext('2d');
+
+			canvas.width = 1200;
+			canvas.height = 630;
+
+			const chars = '01';
+			const fontSize = 12;
+			const columns = canvas.width / fontSize;
+			const drops = [];
+
+			for (let i = 0; i < columns; i++) {
+				drops[i] = 1;
+			}
+
+			function draw() {
+				ctx.fillStyle = 'rgba(13, 13, 13, 0.05)';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+				ctx.fillStyle = '#00ff41';
+				ctx.font = fontSize + 'px monospace';
+
+				for (let i = 0; i < drops.length; i++) {
+					const text =
+						chars[Math.floor(Math.random() * chars.length)];
+					ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+					if (
+						drops[i] * fontSize > canvas.height &&
+						Math.random() > 0.975
+					) {
+						drops[i] = 0;
+					}
+					drops[i]++;
+				}
+			}
+
+			setInterval(draw, 100);
+		</script>
+	</body>
+</html>
