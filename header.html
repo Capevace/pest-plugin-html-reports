@@ -12,8 +12,8 @@
 				box-sizing: border-box;
 			}
 			body {
-				background: #000;
-				color: #00ff41;
+				background: #0d0d0d;
+				color: #e6e6e6;
 				font-family: 'JetBrains Mono', 'Courier New', monospace;
 				display: flex;
 				align-items: center;
@@ -24,11 +24,10 @@
 				width: 1200px;
 				height: 630px;
 				background: #0d0d0d;
-				border: 1px solid #333;
 				padding: 40px;
 				display: flex;
 				flex-direction: column;
-				justify-content: space-between;
+				justify-content: center;
 				position: relative;
 				overflow: hidden;
 			}
@@ -39,7 +38,6 @@
 				width: 100%;
 				height: 100%;
 				pointer-events: none;
-				opacity: 0.1;
 				z-index: 0;
 			}
 			.content {
@@ -50,54 +48,46 @@
 				justify-content: space-between;
 				height: 100%;
 			}
-			.title-section {
-				text-align: left;
+			.main-content {
+				text-align: center;
 			}
-			.ascii-title {
+			.ascii-art {
 				color: #00ff41;
-				font-size: 12px;
-				line-height: 1.1;
+				font-size: 10px;
+				text-align: left;
+				line-height: 1;
 				white-space: pre;
-				margin-bottom: 20px;
-				text-shadow: 0 0 5px #00ff41;
+				text-shadow: 0 0 5px rgba(0, 255, 65, 0.7),
+					0 0 10px rgba(0, 255, 65, 0.5);
+				margin-bottom: 40px;
+				display: inline-block;
 			}
 			.description {
-				font-size: 20px;
+				font-size: 22px;
 				color: #cccccc;
 				line-height: 1.6;
 				max-width: 700px;
-			}
-			.blink::after {
-				content: '█';
-				animation: blink 1.2s step-end infinite;
-				margin-left: 0.25rem;
-			}
-			@keyframes blink {
-				0%,
-				100% {
-					opacity: 1;
-				}
-				50% {
-					opacity: 0;
-				}
+				margin: 0 auto;
 			}
 			.bottom-section {
 				display: flex;
 				justify-content: space-between;
 				align-items: flex-end;
+				width: 100%;
+				padding-top: 60px;
 			}
 			.status-grid {
 				display: flex;
-				gap: 20px;
+				gap: 15px;
 			}
 			.status-box {
-				background: #111;
+				background: #1a1a1a;
 				border: 1px solid #333;
 				padding: 15px 20px;
-				min-width: 160px;
+				min-width: 140px;
 			}
 			.status-title {
-				color: #666;
+				color: #808080;
 				font-size: 14px;
 				margin-bottom: 5px;
 			}
@@ -108,12 +98,17 @@
 			}
 			.status-version.pest {
 				color: #00ff41;
-				text-shadow: 0 0 5px #00ff41;
 			}
 			.footer-info {
-				color: #666;
+				color: #808080;
 				font-size: 14px;
 				text-align: right;
+			}
+			.footer-info .command {
+				color: #cccccc;
+			}
+			.footer-info .author {
+				color: #555;
 			}
 		</style>
 	</head>
@@ -121,23 +116,56 @@
 		<div class="screenshot-container">
 			<canvas class="matrix-bg" id="matrix"></canvas>
 			<div class="content">
-				<div class="title-section">
-					<div class="ascii-title">
-						██████╗ ███████╗███████╗████████╗ ██████╗
-						███████╗██████╗ ██████╗ ██████╗ ████████╗███████╗
-						██╔══██╗██╔════╝██╔════╝╚══██╔══╝
-						██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝
-						██████╔╝█████╗ ███████╗ ██║ ██████╔╝█████╗ ██████╔╝██║
-						██║██████╔╝ ██║ ███████╗ ██╔═══╝ ██╔══╝ ╚════██║ ██║
-						██╔══██╗██╔══╝ ██╔═══╝ ██║ ██║██╔══██╗ ██║ ╚════██║ ██║
-						███████╗███████║ ██║ ██║ ██║███████╗██║ ╚██████╔╝██║ ██║
-						██║ ███████║ ╚═╝ ╚══════╝╚══════╝ ╚═╝ ╚═╝ ╚═╝╚══════╝╚═╝
-						╚═════╝ ╚═╝ ╚═╝ ╚═╝ ╚══════╝
-					</div>
+				<div class="main-content">
+					<div class="ascii-art" id="title"></div>
+					<script>
+					var texts = [
+`  ▄███████▄    ▄████████    ▄████████     ███             ▄█    █▄        ███       ▄▄▄▄███▄▄▄▄    ▄█               ▄████████    ▄████████    ▄███████▄  ▄██████▄     ▄████████     ███        ▄████████
+███    ███   ███    ███   ███    ███ ▀█████████▄        ███    ███   ▀█████████▄ ▄██▀▀▀███▀▀▀██▄ ███              ███    ███   ███    ███   ███    ███ ███    ███   ███    ███ ▀█████████▄   ███    ███
+███    ███   ███    █▀    ███    █▀     ▀███▀▀██        ███    ███      ▀███▀▀██ ███   ███   ███ ███              ███    ███   ███    █▀    ███    ███ ███    ███   ███    ███    ▀███▀▀██   ███    █▀
+███    ███  ▄███▄▄▄       ███            ███   ▀       ▄███▄▄▄▄███▄▄     ███   ▀ ███   ███   ███ ███             ▄███▄▄▄▄██▀  ▄███▄▄▄       ███    ███ ███    ███  ▄███▄▄▄▄██▀     ███   ▀   ███
+▀█████████▀  ▀▀███▀▀▀     ▀███████████     ███          ▀▀███▀▀▀▀███▀      ███     ███   ███   ███ ███            ▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ▀█████████▀  ███    ███ ▀▀███▀▀▀▀▀       ███     ▀███████████
+███          ███    █▄           ███     ███            ███    ███       ███     ███   ███   ███ ███            ▀███████████   ███    █▄    ███        ███    ███ ▀███████████     ███              ███
+███          ███    ███    ▄█    ███     ███            ███    ███       ███     ███   ███   ███ ███▌    ▄        ███    ███   ███    ███   ███        ███    ███   ███    ███     ███        ▄█    ███
+▄████▀        ██████████  ▄████████▀     ▄████▀          ███    █▀       ▄████▀    ▀█   ███   █▀  █████▄▄██        ███    ███   ██████████  ▄████▀       ▀██████▀    ███    ███    ▄████▀    ▄████████▀
+                                                                                                 ▀                ███    ███                                        ███    ███`,
+`░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+░       ░░░        ░░░      ░░░        ░░░░░░░░  ░░░░  ░░        ░░  ░░░░  ░░  ░░░░░░░░░░░░░░       ░░░        ░░       ░░░░      ░░░       ░░░        ░░░      ░░
+▒  ▒▒▒▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒   ▒▒   ▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒▒▒
+▒       ▒▒▒      ▒▒▒▒▒      ▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒        ▒▒▒▒▒  ▒▒▒▒▒        ▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒       ▒▒▒      ▒▒▒▒       ▒▒▒  ▒▒▒▒  ▒▒       ▒▒▒▒▒▒  ▒▒▒▒▒▒      ▒▒
+▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒  ▒  ▒  ▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒  ▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒  ▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒  ▒
+█  ████████        ███      ██████  ███████████  ████  █████  █████  ████  ██        ████████  ████  ██        ██  █████████      ███  ████  █████  ██████      ██
+██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████`,
+`██▓███  ▓█████   ██████ ▄▄▄█████▓    ██░ ██ ▄▄▄█████▓ ███▄ ▄███▓ ██▓        ██▀███  ▓█████  ██▓███   ▒█████   ██▀███  ▄▄▄█████▓  ██████
+▓██░  ██▒▓█   ▀ ▒██    ▒ ▓  ██▒ ▓▒   ▓██░ ██▒▓  ██▒ ▓▒▓██▒▀█▀ ██▒▓██▒       ▓██ ▒ ██▒▓█   ▀ ▓██░  ██▒▒██▒  ██▒▓██ ▒ ██▒▓  ██▒ ▓▒▒██    ▒
+▓██░ ██▓▒▒███   ░ ▓██▄   ▒ ▓██░ ▒░   ▒██▀▀██░▒ ▓██░ ▒░▓██    ▓██░▒██░       ▓██ ░▄█ ▒▒███   ▓██░ ██▓▒▒██░  ██▒▓██ ░▄█ ▒▒ ▓██░ ▒░░ ▓██▄
+▒██▄█▓▒ ▒▒▓█  ▄   ▒   ██▒░ ▓██▓ ░    ░▓█ ░██ ░ ▓██▓ ░ ▒██    ▒██ ▒██░       ▒██▀▀█▄  ▒▓█  ▄ ▒██▄█▓▒ ▒▒██   ██░▒██▀▀█▄  ░ ▓██▓ ░   ▒   ██▒
+▒██▒ ░  ░░▒████▒▒██████▒▒  ▒██▒ ░    ░▓█▒░██▓  ▒██▒ ░ ▒██▒   ░██▒░██████▒   ░██▓ ▒██▒░▒████▒▒██▒ ░  ░░ ████▓▒░░██▓ ▒██▒  ▒██▒ ░ ▒██████▒▒
+▒▓▒░ ░  ░░░ ▒░ ░▒ ▒▓▒ ▒ ░  ▒ ░░       ▒ ░░▒░▒  ▒ ░░   ░ ▒░   ░  ░░ ▒░▓  ░   ░ ▒▓ ░▒▓░░░ ▒░ ░▒▓▒░ ░  ░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░  ▒ ░░   ▒ ▒▓▒ ▒ ░
+░▒ ░      ░ ░  ░░ ░▒  ░ ░    ░        ▒ ░▒░ ░    ░    ░  ░      ░░ ░ ▒  ░     ░▒ ░ ▒░ ░ ░  ░░▒ ░       ░ ▒ ▒░   ░▒ ░ ▒░    ░    ░ ░▒  ░ ░
+░░          ░   ░  ░  ░    ░          ░  ░░ ░  ░      ░      ░     ░ ░        ░░   ░    ░   ░░       ░ ░ ░ ▒    ░░   ░   ░      ░  ░  ░
+            ░  ░      ░               ░  ░  ░                ░       ░  ░      ░        ░  ░             ░ ░     ░                    ░`,
+`██████╗ ███████╗███████╗████████╗    ██╗  ██╗████████╗███╗   ███╗██╗         ██████╗ ███████╗██████╗  ██████╗ ██████╗ ████████╗███████╗
+██╔══██╗██╔════╝██╔════╝╚══██╔══╝    ██║  ██║╚══██╔══╝████╗ ████║██║         ██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝
+██████╔╝█████╗  ███████╗   ██║       ███████║   ██║   ██╔████╔██║██║         ██████╔╝█████╗  ██████╔╝██║   ██║██████╔╝   ██║   ███████╗
+██╔═══╝ ██╔══╝  ╚════██║   ██║       ██╔══██║   ██║   ██║╚██╔╝██║██║         ██╔══██╗██╔══╝  ██╔═══╝ ██║   ██║██╔══██╗   ██║   ╚════██║
+██║     ███████╗███████║   ██║       ██║  ██║   ██║   ██║ ╚═╝ ██║███████╗    ██║  ██║███████╗██║     ╚██████╔╝██║  ██║   ██║   ███████║
+╚═╝     ╚══════╝╚══════╝   ╚═╝       ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝`,
+					];
+
+					var random_index = Math.floor(Math.random() * texts.length);
+					var title = document.querySelector('#title');
+					title.textContent = texts[random_index];
+
+					switch (random_index) {
+					    case 0:
+							title.style.fontSize = '0.4rem';
+							break;
+					}
+					</script>
 					<p class="description">
 						Interactively explore your Pest test results with a
 						single file .HTML report generated on every run.
-						<span class="blink"></span>
 					</p>
 				</div>
 
@@ -157,42 +185,35 @@
 						</div>
 					</div>
 					<div class="footer-info">
-						<p>> composer require mateffy/html-reports-for-pest</p>
-						<p style="color: #444">Made by Lukas Mateffy</p>
+						<p class="command">
+							> composer require mateffy/pest-plugin-html-reports
+						</p>
+						<p class="author">Made by Lukas Mateffy</p>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<script>
-			// Matrix rain effect
 			const canvas = document.getElementById('matrix');
 			const ctx = canvas.getContext('2d');
-
 			canvas.width = 1200;
 			canvas.height = 630;
-
 			const chars = '01';
 			const fontSize = 12;
 			const columns = canvas.width / fontSize;
-			const drops = [];
-
-			for (let i = 0; i < columns; i++) {
-				drops[i] = 1;
-			}
+			const drops = Array.from({ length: columns }).fill(1);
 
 			function draw() {
 				ctx.fillStyle = 'rgba(13, 13, 13, 0.05)';
 				ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-				ctx.fillStyle = '#00ff41';
+				ctx.fillStyle = 'rgba(0, 255, 65, 0.5)';
 				ctx.font = fontSize + 'px monospace';
 
 				for (let i = 0; i < drops.length; i++) {
 					const text =
 						chars[Math.floor(Math.random() * chars.length)];
 					ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
 					if (
 						drops[i] * fontSize > canvas.height &&
 						Math.random() > 0.975
@@ -202,7 +223,6 @@
 					drops[i]++;
 				}
 			}
-
 			setInterval(draw, 100);
 		</script>
 	</body>
