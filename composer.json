@@ -1,6 +1,6 @@
 {
 	"name": "mateffy/pest-plugin-html-reports",
-	"description": "Generate interactive HTML reports from Pest test results",
+	"description": "Generate interactive HTML reports of Pest test results",
 	"license": "MIT",
 	"authors": [
 		{
