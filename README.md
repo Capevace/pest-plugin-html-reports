@@ -30,7 +30,7 @@ composer require mateffy/pest-plugin-html-reports
 Generate a static HTML report from a test results JSON file:
 
 ```bash
-php artisan pest-reports:generate \
+php artisan test-report:generate \
     --input=storage/app/pest_test_results.json \
     --output=public/pest-report.html \
     --title="My Project Test Results" \

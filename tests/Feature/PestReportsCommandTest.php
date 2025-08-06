@@ -10,7 +10,7 @@ it('can generate a report', function () {
 		File::delete($outputFile);
 	}
 
-	$this->artisan('pest-reports:generate', [
+	$this->artisan('test-report:generate', [
 		'--input' => __DIR__ . '/../fixtures/output.json',
 		'--output' => $outputFile,
 	])->assertExitCode(0);

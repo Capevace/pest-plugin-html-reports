@@ -7,7 +7,7 @@ use Mateffy\HtmlReports\Services\StaticHtmlGenerator;
 
 class PestReportsCommand extends Command
 {
-	public $signature = 'pest-reports:generate 
+	public $signature = 'test-report:generate 
         {--input= : Path to JSON file with test results}
         {--output= : Output path for the HTML file}
         {--title= : Title for the report}
@@ -36,6 +36,7 @@ class PestReportsCommand extends Command
 			file_put_contents($outputPath, $html);
 
 			$this->info('Static HTML report generated successfully: ' . $outputPath);
+
 			return self::SUCCESS;
 		} catch (\Exception $e) {
 			report($e);

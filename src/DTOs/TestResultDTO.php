@@ -6,31 +6,28 @@ namespace Mateffy\HtmlReports\DTOs;
 
 class TestResultDTO
 {
-	public function __construct(
-		public readonly TestCountsDTO $counts,
-		public readonly array $failed,
-		public readonly array $testSuites
-	) {}
+    public function __construct(
+        public readonly TestCountsDTO $counts,
+        public readonly array $testSuites
+    ) {}
 
-	public static function fromArray(array $data): self
-	{
-		$testSuites = collect($data['testSuites'] ?? [])
-			->map(fn($suiteData, $suiteName) => TestSuiteDTO::fromArray($suiteName, $suiteData))
-			->toArray();
+    public static function fromArray(array $data, ?string $basePath = null): self
+    {
+        $testSuites = collect($data['testSuites'] ?? [])
+            ->map(fn ($suiteData, $suiteName) => TestSuiteDTO::fromArray($suiteName, $suiteData, $basePath))
+            ->toArray();
 
-		return new self(
-			counts: TestCountsDTO::fromArray($data['counts'] ?? []),
-			failed: $data['failed'] ?? [],
-			testSuites: $testSuites
-		);
-	}
+        return new self(
+            counts: TestCountsDTO::fromArray($data['counts'] ?? []),
+            testSuites: $testSuites
+        );
+    }
 
-	public function toArray(): array
-	{
-		return [
-			'counts' => $this->counts->toArray(),
-			'failed' => $this->failed,
-			'testSuites' => collect($this->testSuites)->map(fn($suite) => $suite->toArray())->toArray(),
-		];
-	}
+    public function toArray(): array
+    {
+        return [
+            'counts' => $this->counts->toArray(),
+            'testSuites' => collect($this->testSuites)->map(fn ($suite) => $suite->toArray())->toArray(),
+        ];
+    }
 }

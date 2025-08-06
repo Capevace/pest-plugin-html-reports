@@ -6,50 +6,51 @@ namespace Mateffy\HtmlReports\Services;
 
 class GitHubLinkService
 {
-	private string $repository;
-	private string $provider;
+    private string $repository;
 
-	public function __construct(string $repository = '', string $provider = 'GitHub')
-	{
-		$this->repository = $repository;
-		$this->provider = $provider;
-	}
+    private string $provider;
 
-	public function generatePullRequestUrl(int $prNumber): ?string
-	{
-		if (empty($this->repository)) {
-			return null;
-		}
+    public function __construct(string $repository = '', string $provider = 'GitHub')
+    {
+        $this->repository = $repository;
+        $this->provider = $provider;
+    }
 
-		return "https://github.com/{$this->repository}/pull/{$prNumber}";
-	}
+    public function generatePullRequestUrl(int $prNumber): ?string
+    {
+        if (empty($this->repository)) {
+            return null;
+        }
 
-	public function generateIssueUrl(int $issueNumber): ?string
-	{
-		if (empty($this->repository)) {
-			return null;
-		}
+        return "https://github.com/{$this->repository}/pull/{$prNumber}";
+    }
 
-		return "https://github.com/{$this->repository}/issues/{$issueNumber}";
-	}
+    public function generateIssueUrl(int $issueNumber): ?string
+    {
+        if (empty($this->repository)) {
+            return null;
+        }
 
-	public function getProviderName(): string
-	{
-		return $this->provider;
-	}
+        return "https://github.com/{$this->repository}/issues/{$issueNumber}";
+    }
 
-	public function getRepository(): string
-	{
-		return $this->repository;
-	}
+    public function getProviderName(): string
+    {
+        return $this->provider;
+    }
 
-	public function setRepository(string $repository): void
-	{
-		$this->repository = $repository;
-	}
+    public function getRepository(): string
+    {
+        return $this->repository;
+    }
 
-	public function setProvider(string $provider): void
-	{
-		$this->provider = $provider;
-	}
+    public function setRepository(string $repository): void
+    {
+        $this->repository = $repository;
+    }
+
+    public function setProvider(string $provider): void
+    {
+        $this->provider = $provider;
+    }
 }

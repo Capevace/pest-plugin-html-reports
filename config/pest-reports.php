@@ -1,5 +1,5 @@
 <?php
 
 return [
-	'filename_template' => 'report-{{date}}-{{id}}.json',
+    'filename_template' => 'report-{{date}}-{{id}}.json',
 ];

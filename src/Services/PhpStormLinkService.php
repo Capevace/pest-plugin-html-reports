@@ -6,67 +6,68 @@ namespace Mateffy\HtmlReports\Services;
 
 class PhpStormLinkService
 {
-	private array $availableEditors = [
-		'phpstorm' => 'PhpStorm',
-		'vscode' => 'VS Code',
-		'sublime' => 'Sublime Text',
-		'vim' => 'Vim',
-	];
+    private array $availableEditors = [
+        'phpstorm' => 'PhpStorm',
+        'vscode' => 'VS Code',
+        'sublime' => 'Sublime Text',
+        'vim' => 'Vim',
+    ];
 
-	private string $selectedEditor = 'phpstorm';
-	private string $projectPath = '';
+    private string $selectedEditor = 'phpstorm';
 
-	public function __construct(string $projectPath = '', string $selectedEditor = 'phpstorm')
-	{
-		$this->projectPath = $projectPath;
-		$this->selectedEditor = $selectedEditor;
-	}
+    private string $projectPath = '';
 
-	public function generateDeepLink(string $filePath, int $lineNumber, string $editor = null): string
-	{
-		$editor = $editor ?: $this->selectedEditor;
-		$relativePath = $this->getRelativePath($filePath);
+    public function __construct(string $projectPath = '', string $selectedEditor = 'phpstorm')
+    {
+        $this->projectPath = $projectPath;
+        $this->selectedEditor = $selectedEditor;
+    }
 
-		return match ($editor) {
-			'phpstorm' => "phpstorm://open?file={$relativePath}&line={$lineNumber}",
-			'vscode' => "vscode://file/{$relativePath}:{$lineNumber}",
-			'sublime' => "subl://{$relativePath}:{$lineNumber}",
-			'vim' => "vim://{$relativePath}:{$lineNumber}",
-			default => "phpstorm://open?file={$relativePath}&line={$lineNumber}",
-		};
-	}
+    public function generateDeepLink(string $filePath, int $lineNumber, ?string $editor = null): string
+    {
+        $editor = $editor ?: $this->selectedEditor;
+        $relativePath = $this->getRelativePath($filePath);
 
-	public function getAvailableEditors(): array
-	{
-		return $this->availableEditors;
-	}
+        return match ($editor) {
+            'phpstorm' => "phpstorm://open?file={$relativePath}&line={$lineNumber}",
+            'vscode' => "vscode://file/{$relativePath}:{$lineNumber}",
+            'sublime' => "subl://{$relativePath}:{$lineNumber}",
+            'vim' => "vim://{$relativePath}:{$lineNumber}",
+            default => "phpstorm://open?file={$relativePath}&line={$lineNumber}",
+        };
+    }
 
-	public function getSelectedEditor(): string
-	{
-		return $this->selectedEditor;
-	}
+    public function getAvailableEditors(): array
+    {
+        return $this->availableEditors;
+    }
 
-	public function getProjectPath(): string
-	{
-		return $this->projectPath;
-	}
+    public function getSelectedEditor(): string
+    {
+        return $this->selectedEditor;
+    }
 
-	public function setSelectedEditor(string $editor): void
-	{
-		$this->selectedEditor = $editor;
-	}
+    public function getProjectPath(): string
+    {
+        return $this->projectPath;
+    }
 
-	public function setProjectPath(string $projectPath): void
-	{
-		$this->projectPath = $projectPath;
-	}
+    public function setSelectedEditor(string $editor): void
+    {
+        $this->selectedEditor = $editor;
+    }
 
-	private function getRelativePath(string $filePath): string
-	{
-		if (empty($this->projectPath)) {
-			return $filePath;
-		}
+    public function setProjectPath(string $projectPath): void
+    {
+        $this->projectPath = $projectPath;
+    }
 
-		return str_replace($this->projectPath . '/', '', $filePath);
-	}
+    private function getRelativePath(string $filePath): string
+    {
+        if (empty($this->projectPath)) {
+            return $filePath;
+        }
+
+        return str_replace($this->projectPath.'/', '', $filePath);
+    }
 }
