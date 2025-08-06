@@ -1,0 +1,53 @@
+![HTML Reports for Pest Tests](./resources/images/header.png)
+
+# HTML Reports for Pest Tests
+
+Generate interactive HTML reports from Pest test results.
+
+## Features
+
+-   Generate static HTML reports from Pest test results JSON
+-   Search UI to find test cases and dig deeper than you ever did before
+-   Editor deep links (PhpStorm, VS Code, Sublime Text, Vim)
+-   GitHub linking for PRs and issues (using Pest's `->todo(issue: 123)` annotations)
+-   Use Markdown in your test case notes (`->note('Note with **bold** text')`)
+-   HTML report is completely self-contained in a single file (Tailwind + Alpine from CDN)
+
+![Screenshot showing an example report](./resources/images/screenshot.png)
+
+## Installation
+
+Install the package via Composer:
+
+```bash
+composer require mateffy/pest-plugin-html-reports
+```
+
+## Usage
+
+### Command Line
+
+Generate a static HTML report from a test results JSON file:
+
+```bash
+php artisan pest-reports:generate \
+    --input=storage/app/pest_test_results.json \
+    --output=public/pest-report.html \
+    --title="My Project Test Results" \
+    --project-path=/path/to/your/project \
+    --editor=phpstorm \
+    --repository=your-username/your-repo
+```
+
+## How it works
+
+1. A Pest test is run
+2. A pest plugin is used to listen to the test completion event and loads the required data from the Pest internals
+3. The data is then stored as a JSON file per run in the `storage/framework/testing/reports` directory
+4. Depending on your configuration, a HTML report is automatically generated and also stored in the `storage/framework/testing/reports` directory. Optionally you can configure the report to open in your browser automatically.
+5. Later on, the `artisan test-report:generate` command can be used to generate a static HTML report from any of the historic JSON files
+6. Use the `artisan test-report:open` command to open the latest report in your browser
+
+## License
+
+MIT License

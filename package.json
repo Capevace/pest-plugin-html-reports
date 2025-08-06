@@ -1,0 +1,18 @@
+{
+    "name": "pest-reports",
+    "version": "1.0.0",
+    "description": "A Laravel package for generating static HTML reports from Pest test results.",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {},
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "devDependencies": {
+        "@playwright/test": "^1.54.2",
+        "@types/node": "^24.2.0"
+    }
+}

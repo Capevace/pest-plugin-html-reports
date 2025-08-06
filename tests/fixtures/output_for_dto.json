@@ -1,0 +1,29 @@
+{
+    "counts": {
+        "tests": 1,
+        "failed": 0,
+        "assertions": 1,
+        "errors": 0,
+        "warnings": 0,
+        "deprecations": 0,
+        "notices": 0,
+        "success": 1,
+        "incomplete": 0,
+        "risky": 0,
+        "skipped": 0
+    },
+    "failed": [],
+    "testSuites": {
+        "Tests\\Feature\\ExampleTest": {
+            "description": "Tests\\Feature\\ExampleTest",
+            "tests": {
+                "that true is true": {
+                    "description": "that true is true",
+                    "test": "it('that true is true', function () {\\n    $this->assertTrue(true);\\n});",
+                    "filePath": "/Users/mat/Projects/inline-pest/tests/Feature/ExampleTest.php",
+                    "relativeFilePath": "tests/Feature/ExampleTest.php"
+                }
+            }
+        }
+    }
+}

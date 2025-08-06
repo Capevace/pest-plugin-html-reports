@@ -1,0 +1,32 @@
+{
+    "counts": {
+        "tests": 1,
+        "failed": 0,
+        "assertions": 0,
+        "errors": 1,
+        "warnings": 0,
+        "deprecations": 0,
+        "notices": 0,
+        "success": 0,
+        "incomplete": 0,
+        "risky": 0,
+        "skipped": 0
+    },
+    "failed": [],
+    "testSuites": {
+        "it can generate a json report from a finished event": {
+            "tests": {
+                "it can generate a json report from a finished event": {
+                    "description": "it can generate a json report from a finished event",
+                    "test": "it can generate a json report from a finished event",
+                    "filePath": "\/Users\/mat\/Projects\/inline-pest\/pest-reports\/tests\/Feature\/TestRunnerFinishedSubscriberTest.php",
+                    "error": {
+                        "message": "Class \"PHPUnit\\TestRunner\\TestResult\\Facade\" is declared \"final\" and cannot be doubled",
+                        "exception_class": "PHPUnit\\Framework\\MockObject\\Generator\\ClassIsFinalException",
+                        "line": 18
+                    }
+                }
+            }
+        }
+    }
+}
