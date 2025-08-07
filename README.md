@@ -2,7 +2,7 @@
 
 <div class="flex flex-col gap-4" align="center">
 	<h1>
-		HTML Reports for Pest Tests
+		HTML Reports for Pest PHP Tests
 	</h1>
 	<strong>
 		Generate interactive HTML reports from Pest test results.
