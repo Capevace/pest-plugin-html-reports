@@ -1,8 +1,13 @@
 ![HTML Reports for Pest Tests](./docs/images/header-1.png)
 
-# HTML Reports for Pest Tests
-
-Generate interactive HTML reports from Pest test results.
+<div class="flex flex-col gap-4" align="center">
+	<h1>
+		HTML Reports for Pest Tests
+	</h1>
+	<p>
+		Generate interactive HTML reports from Pest test results.
+	</p>
+</div>
 
 ## Features
 
