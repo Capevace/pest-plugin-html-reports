@@ -1,126 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Pest HTML Reports Header</title>
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
-			body {
-				background: #0d0d0d;
-				color: #e6e6e6;
-				font-family: 'JetBrains Mono', 'Courier New', monospace;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				min-height: 100vh;
-			}
-			.screenshot-container {
-				width: 1200px;
-				height: 630px;
-				background: #0d0d0d;
-				padding: 40px;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				position: relative;
-				overflow: hidden;
-			}
-			.matrix-bg {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				pointer-events: none;
-				z-index: 0;
-			}
-			.content {
-				position: relative;
-				z-index: 1;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-				height: 100%;
-			}
-			.main-content {
-				text-align: center;
-			}
-			.ascii-art {
-				color: #00ff41;
-				font-size: 10px;
-				text-align: left;
-				line-height: 1;
-				white-space: pre;
-				text-shadow: 0 0 5px rgba(0, 255, 65, 0.7),
-					0 0 10px rgba(0, 255, 65, 0.5);
-				margin-bottom: 40px;
-				display: inline-block;
-			}
-			.description {
-				font-size: 22px;
-				color: #cccccc;
-				line-height: 1.6;
-				max-width: 700px;
-				margin: 0 auto;
-			}
-			.bottom-section {
-				display: flex;
-				justify-content: space-between;
-				align-items: flex-end;
-				width: 100%;
-				padding-top: 60px;
-			}
-			.status-grid {
-				display: flex;
-				gap: 15px;
-			}
-			.status-box {
-				background: #1a1a1a;
-				border: 1px solid #333;
-				padding: 15px 20px;
-				min-width: 140px;
-			}
-			.status-title {
-				color: #808080;
-				font-size: 14px;
-				margin-bottom: 5px;
-			}
-			.status-version {
-				color: #ffffff;
-				font-size: 22px;
-				font-weight: 700;
-			}
-			.status-version.pest {
-				color: #00ff41;
-			}
-			.footer-info {
-				color: #808080;
-				font-size: 14px;
-				text-align: right;
-			}
-			.footer-info .command {
-				color: #cccccc;
-			}
-			.footer-info .author {
-				color: #555;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="screenshot-container">
-			<canvas class="matrix-bg" id="matrix"></canvas>
-			<div class="content">
-				<div class="main-content">
-					<div class="ascii-art" id="title"></div>
-					<script>
-					var texts = [
-`  ▄███████▄    ▄████████    ▄████████     ███             ▄█    █▄        ███       ▄▄▄▄███▄▄▄▄    ▄█               ▄████████    ▄████████    ▄███████▄  ▄██████▄     ▄████████     ███        ▄████████
+<script>
+	var texts = [
+		`  ▄███████▄    ▄████████    ▄████████     ███             ▄█    █▄        ███       ▄▄▄▄███▄▄▄▄    ▄█               ▄████████    ▄████████    ▄███████▄  ▄██████▄     ▄████████     ███        ▄████████
 ███    ███   ███    ███   ███    ███ ▀█████████▄        ███    ███   ▀█████████▄ ▄██▀▀▀███▀▀▀██▄ ███              ███    ███   ███    ███   ███    ███ ███    ███   ███    ███ ▀█████████▄   ███    ███
 ███    ███   ███    █▀    ███    █▀     ▀███▀▀██        ███    ███      ▀███▀▀██ ███   ███   ███ ███              ███    ███   ███    █▀    ███    ███ ███    ███   ███    ███    ▀███▀▀██   ███    █▀
 ███    ███  ▄███▄▄▄       ███            ███   ▀       ▄███▄▄▄▄███▄▄     ███   ▀ ███   ███   ███ ███             ▄███▄▄▄▄██▀  ▄███▄▄▄       ███    ███ ███    ███  ▄███▄▄▄▄██▀     ███   ▀   ███
@@ -128,15 +8,15 @@
 ███          ███    █▄           ███     ███            ███    ███       ███     ███   ███   ███ ███            ▀███████████   ███    █▄    ███        ███    ███ ▀███████████     ███              ███
 ███          ███    ███    ▄█    ███     ███            ███    ███       ███     ███   ███   ███ ███▌    ▄        ███    ███   ███    ███   ███        ███    ███   ███    ███     ███        ▄█    ███
 ▄████▀        ██████████  ▄████████▀     ▄████▀          ███    █▀       ▄████▀    ▀█   ███   █▀  █████▄▄██        ███    ███   ██████████  ▄████▀       ▀██████▀    ███    ███    ▄████▀    ▄████████▀
-                                                                                                 ▀                ███    ███                                        ███    ███`,
-`░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+																				 ▀                ███    ███                                        ███    ███`,
+		`░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ░       ░░░        ░░░      ░░░        ░░░░░░░░  ░░░░  ░░        ░░  ░░░░  ░░  ░░░░░░░░░░░░░░       ░░░        ░░       ░░░░      ░░░       ░░░        ░░░      ░░
 ▒  ▒▒▒▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒   ▒▒   ▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒▒▒
 ▒       ▒▒▒      ▒▒▒▒▒      ▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒        ▒▒▒▒▒  ▒▒▒▒▒        ▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒       ▒▒▒      ▒▒▒▒       ▒▒▒  ▒▒▒▒  ▒▒       ▒▒▒▒▒▒  ▒▒▒▒▒▒      ▒▒
 ▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒  ▒  ▒  ▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒  ▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒  ▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒  ▒
 █  ████████        ███      ██████  ███████████  ████  █████  █████  ████  ██        ████████  ████  ██        ██  █████████      ███  ████  █████  ██████      ██
 ██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████`,
-`██▓███  ▓█████   ██████ ▄▄▄█████▓    ██░ ██ ▄▄▄█████▓ ███▄ ▄███▓ ██▓        ██▀███  ▓█████  ██▓███   ▒█████   ██▀███  ▄▄▄█████▓  ██████
+		`██▓███  ▓█████   ██████ ▄▄▄█████▓    ██░ ██ ▄▄▄█████▓ ███▄ ▄███▓ ██▓        ██▀███  ▓█████  ██▓███   ▒█████   ██▀███  ▄▄▄█████▓  ██████
 ▓██░  ██▒▓█   ▀ ▒██    ▒ ▓  ██▒ ▓▒   ▓██░ ██▒▓  ██▒ ▓▒▓██▒▀█▀ ██▒▓██▒       ▓██ ▒ ██▒▓█   ▀ ▓██░  ██▒▒██▒  ██▒▓██ ▒ ██▒▓  ██▒ ▓▒▒██    ▒
 ▓██░ ██▓▒▒███   ░ ▓██▄   ▒ ▓██░ ▒░   ▒██▀▀██░▒ ▓██░ ▒░▓██    ▓██░▒██░       ▓██ ░▄█ ▒▒███   ▓██░ ██▓▒▒██░  ██▒▓██ ░▄█ ▒▒ ▓██░ ▒░░ ▓██▄
 ▒██▄█▓▒ ▒▒▓█  ▄   ▒   ██▒░ ▓██▓ ░    ░▓█ ░██ ░ ▓██▓ ░ ▒██    ▒██ ▒██░       ▒██▀▀█▄  ▒▓█  ▄ ▒██▄█▓▒ ▒▒██   ██░▒██▀▀█▄  ░ ▓██▓ ░   ▒   ██▒
@@ -144,86 +24,22 @@
 ▒▓▒░ ░  ░░░ ▒░ ░▒ ▒▓▒ ▒ ░  ▒ ░░       ▒ ░░▒░▒  ▒ ░░   ░ ▒░   ░  ░░ ▒░▓  ░   ░ ▒▓ ░▒▓░░░ ▒░ ░▒▓▒░ ░  ░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░  ▒ ░░   ▒ ▒▓▒ ▒ ░
 ░▒ ░      ░ ░  ░░ ░▒  ░ ░    ░        ▒ ░▒░ ░    ░    ░  ░      ░░ ░ ▒  ░     ░▒ ░ ▒░ ░ ░  ░░▒ ░       ░ ▒ ▒░   ░▒ ░ ▒░    ░    ░ ░▒  ░ ░
 ░░          ░   ░  ░  ░    ░          ░  ░░ ░  ░      ░      ░     ░ ░        ░░   ░    ░   ░░       ░ ░ ░ ▒    ░░   ░   ░      ░  ░  ░
-            ░  ░      ░               ░  ░  ░                ░       ░  ░      ░        ░  ░             ░ ░     ░                    ░`,
-`██████╗ ███████╗███████╗████████╗    ██╗  ██╗████████╗███╗   ███╗██╗         ██████╗ ███████╗██████╗  ██████╗ ██████╗ ████████╗███████╗
+░  ░      ░               ░  ░  ░                ░       ░  ░      ░        ░  ░             ░ ░     ░                    ░`,
+		`██████╗ ███████╗███████╗████████╗    ██╗  ██╗████████╗███╗   ███╗██╗         ██████╗ ███████╗██████╗  ██████╗ ██████╗ ████████╗███████╗
 ██╔══██╗██╔════╝██╔════╝╚══██╔══╝    ██║  ██║╚══██╔══╝████╗ ████║██║         ██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝
 ██████╔╝█████╗  ███████╗   ██║       ███████║   ██║   ██╔████╔██║██║         ██████╔╝█████╗  ██████╔╝██║   ██║██████╔╝   ██║   ███████╗
 ██╔═══╝ ██╔══╝  ╚════██║   ██║       ██╔══██║   ██║   ██║╚██╔╝██║██║         ██╔══██╗██╔══╝  ██╔═══╝ ██║   ██║██╔══██╗   ██║   ╚════██║
 ██║     ███████╗███████║   ██║       ██║  ██║   ██║   ██║ ╚═╝ ██║███████╗    ██║  ██║███████╗██║     ╚██████╔╝██║  ██║   ██║   ███████║
 ╚═╝     ╚══════╝╚══════╝   ╚═╝       ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝╚══════╝    ╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝`,
-					];
+	];
 
-					var random_index = Math.floor(Math.random() * texts.length);
-					var title = document.querySelector('#title');
-					title.textContent = texts[random_index];
+	var random_index = Math.floor(Math.random() * texts.length);
+	var title = document.querySelector('#title');
+	title.textContent = texts[random_index];
 
-					switch (random_index) {
-					    case 0:
-							title.style.fontSize = '0.4rem';
-							break;
-					}
-					</script>
-					<p class="description">
-						Interactively explore your Pest test results with a
-						single file .HTML report generated on every run.
-					</p>
-				</div>
-
-				<div class="bottom-section">
-					<div class="status-grid">
-						<div class="status-box">
-							<div class="status-title">PHP</div>
-							<div class="status-version">8.2+</div>
-						</div>
-						<div class="status-box">
-							<div class="status-title">Laravel</div>
-							<div class="status-version">10-12</div>
-						</div>
-						<div class="status-box">
-							<div class="status-title">Pest</div>
-							<div class="status-version pest">v3</div>
-						</div>
-					</div>
-					<div class="footer-info">
-						<p class="command">
-							> composer require mateffy/pest-plugin-html-reports
-						</p>
-						<p class="author">Made by Lukas Mateffy</p>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<script>
-			const canvas = document.getElementById('matrix');
-			const ctx = canvas.getContext('2d');
-			canvas.width = 1200;
-			canvas.height = 630;
-			const chars = '01';
-			const fontSize = 12;
-			const columns = canvas.width / fontSize;
-			const drops = Array.from({ length: columns }).fill(1);
-
-			function draw() {
-				ctx.fillStyle = 'rgba(13, 13, 13, 0.05)';
-				ctx.fillRect(0, 0, canvas.width, canvas.height);
-				ctx.fillStyle = 'rgba(0, 255, 65, 0.5)';
-				ctx.font = fontSize + 'px monospace';
-
-				for (let i = 0; i < drops.length; i++) {
-					const text =
-						chars[Math.floor(Math.random() * chars.length)];
-					ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-					if (
-						drops[i] * fontSize > canvas.height &&
-						Math.random() > 0.975
-					) {
-						drops[i] = 0;
-					}
-					drops[i]++;
-				}
-			}
-			setInterval(draw, 100);
-		</script>
-	</body>
-</html>
+	switch (random_index) {
+		case 0:
+			title.style.fontSize = '0.4rem';
+			break;
+	}
+</script>
