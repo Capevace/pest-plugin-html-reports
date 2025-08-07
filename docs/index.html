@@ -6,13 +6,11 @@
 		<title>HTML Reports for Pest – Laravel Package</title>
 		<meta
 			name="description"
-			content="Generate HTML reports for Pest tests with a single file.php file. No more manual setup or configuration. Just run your tests and get a beautiful report."
+			content="Interactively explore your Pest/Laravel test results with a single file .HTML report automatically generated on every run."
 		/>
 		<meta name="robots" content="index, follow" />
 		<meta name="author" content="Lukas Mateffy" />
 		<meta name="keywords" content="Pest, Laravel, HTML Reports" />
-		<meta name="robots" content="index, follow" />
-		<meta name="robots" content="index, follow" />
 
 		<script src="https://cdn.tailwindcss.com"></script>
 		<style>
@@ -51,18 +49,19 @@
 						class="text-center flex-1 flex flex-col justify-center items-center"
 					>
 						<div
-							class="text-[#00ff41] text-[10px] text-left leading-none whitespace-pre inline-block mb-10 ascii-art"
+							class="text-[#00ff41] text-[10px] text-left leading-none whitespace-pre inline-block mb-14 ascii-art"
 							id="title"
 						></div>
 						<p
-							class="text-2xl text-gray-300 leading-relaxed max-w-2xl mx-auto"
+							class="text-2xl text-green-50 leading-relaxed max-w-2xl mx-auto mb-2"
 						>
-							Interactively explore your Pest test results with a
-							single file .HTML report generated on every run.
+							Interactively explore your Pest and Laravel test
+							results with a single file .HTML report generated on
+							every run.
 						</p>
 
 						<div
-							class="text-green-200 mt-10 bg-green-950/20 backdrop-blur-sm px-4 py-2 border border-green-400/20"
+							class="text-green-200 mt-10 bg-green-950/20 backdrop-blur-sm px-4 py-2 border border-green-400/20 mb-3"
 						>
 							<span class="opacity-50 select-none"> $ </span>
 							<span class="opacity-50"> composer require </span>
@@ -72,44 +71,64 @@
 					<div class="flex justify-between items-end w-full pt-16">
 						<div class="flex gap-4">
 							<div
-								class="bg-[#02370fb7] border border-[#00ff4028] backdrop-blur-sm p-4 min-w-[140px]"
+								class="bg-green-950/20 backdrop-blur-sm border-green-400/20 border p-4 min-w-[140px]"
 							>
-								<div class="text-[#9effcf] text-sm mb-1">
+								<div class="text-green-400 text-sm mb-1">
 									PHP
 								</div>
-								<div class="text-white text-2xl font-bold">
-									8.2+
+								<div
+									class="text-green-200 text-2xl font-bold flex items-center justify-start gap-2"
+								>
+									<span>8.2</span>
+									<span class="text-green-300/50"> + </span>
 								</div>
 							</div>
 							<div
-								class="bg-[#02370fb7] border border-[#00ff4028] backdrop-blur-sm p-4 min-w-[140px]"
+								class="bg-green-950/20 backdrop-blur-sm border-green-400/20 border p-4 min-w-[140px]"
 							>
-								<div class="text-[#9effcf] text-sm mb-1">
+								<div class="text-green-400 text-sm mb-1">
 									Laravel
 								</div>
-								<div class="text-white text-2xl font-bold">
-									10-12
+								<div
+									class="text-green-200 text-2xl font-bold flex items-center justify-start gap-1"
+								>
+									<span>11</span>
+									<span class="text-green-300/50"> + </span>
 								</div>
 							</div>
 							<div
-								class="bg-[#02370fb7] border border-[#00ff4028] backdrop-blur-sm p-4 min-w-[140px]"
+								class="bg-green-950/20 backdrop-blur-sm border-green-400/20 border p-4 min-w-[140px]"
 							>
-								<div class="text-[#9effcf] text-sm mb-1">
+								<div class="text-green-400 text-sm mb-1">
 									Pest
 								</div>
-								<div class="text-2xl font-bold">v3</div>
+								<div
+									class="text-green-200 text-2xl font-bold flex items-center justify-start gap-1"
+								>
+									<span>3.0</span>
+									<span class="text-green-300/50"> + </span>
+								</div>
 							</div>
 						</div>
-						<div class="text-gray-500 text-sm text-right">
-							<p class="text-gray-300">
-								Made with ❤️‍🔥 by Lukas Mateffy
-							</p>
+						<div
+							class="text-green-300 text-right font-light flex items-center gap-2"
+						>
+							Made with <span class="text-2xl">❤️‍🔥</span> by
+							<a
+								href="https://mateffy.me"
+								class="text-green-200 hover:text-green-100"
+							>
+								Lukas Mateffy
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="flex items-center justify-between w-full gap-8">
-				<strong class="mb-2 block"> EXAMPLE REPORT </strong>
+				<strong class="mb-2 block flex items-center gap-0.5">
+					EXAMPLE REPORT
+					<span class="text-white/50">.HTML</span>
+				</strong>
 				<a
 					href="report.html"
 					target="_blank"
@@ -344,30 +363,11 @@
 				{
 					size: '0.75rem',
 					text: `
-			 ______ _______  ______ _______    _     _ _______ _______ _          ______  _______ ______ _______ ______ _______ ______
-			(_____ (_______)/ _____|_______)  (_)   (_|_______|_______|_)        (_____ \\(_______|_____ (_______|_____ (_______) _____)
-			 _____) )____  ( (____     _       _______    _    _  _  _ _          _____) )_____   _____) )     _ _____) )  _  ( (____
-			|  ____/  ___)  \\____ \\   | |     |  ___  |  | |  | ||_|| | |        |  __  /|  ___) |  ____/ |   | |  __  /  | |  \\____ \\
-			| |    | |_____ _____) )  | |     | |   | |  | |  | |   | | |_____   | |  \\ \\| |_____| |    | |___| | |  \\ \\  | |  _____) )
-			|_|    |_______|______/   |_|     |_|   |_|  |_|  |_|   |_|_______)  |_|   |_|_______)_|     \\_____/|_|   |_| |_| (______/ `,
-				},
-				{
-					size: '0.75rem',
-					text: `
 			@@@@@@@  @@@@@@@@  @@@@@@ @@@@@@@    @@@  @@@ @@@@@@@ @@@@@@@@@@  @@@         @@@@@@@  @@@@@@@@ @@@@@@@   @@@@@@  @@@@@@@  @@@@@@@  @@@@@@
 			@@!  @@@ @@!      !@@       @!!      @@!  @@@   @!!   @@! @@! @@! @@!         @@!  @@@ @@!      @@!  @@@ @@!  @@@ @@!  @@@   @!!   !@@
 			@!@@!@!  @!!!:!    !@@!!    @!!      @!@!@!@!   @!!   @!! !!@ @!@ @!!         @!@!!@!  @!!!:!   @!@@!@!  @!@  !@! @!@!!@!    @!!    !@@!!
 			!!:      !!:          !:!   !!:      !!:  !!!   !!:   !!:     !!: !!:         !!: :!!  !!:      !!:      !!:  !!! !!: :!!    !!:       !:!
 			 :       : :: ::  ::.: :     :        :   : :    :     :      :   : ::.: :     :   : : : :: ::   :        : :. :   :   : :    :    ::.: :  `,
-				},
-				{
-					size: '0.75rem',
-					text: `
-			________________________________   ______  ______________  ________       _______________________________________________________
-			___  __ \__  ____/_  ___/__  __/   ___  / / /__  __/__   |/  /__  /       ___  __ \__  ____/__  __ \_  __ \__  __ \__  __/_  ___/
-			__  /_/ /_  __/  _____ \__  /      __  /_/ /__  /  __  /|_/ /__  /        __  /_/ /_  __/  __  /_/ /  / / /_  /_/ /_  /  _____ 
-			_  ____/_  /___  ____/ /_  /       _  __  / _  /   _  /  / / _  /___      _  _, _/_  /___  _  ____// /_/ /_  _, _/_  /   ____/ /
-			/_/     /_____/  /____/ /_/        /_/ /_/  /_/    /_/  /_/  /_____/      /_/ |_| /_____/  /_/     \____/ /_/ |_| /_/    /____/  `,
 				},
 				{
 					size: '0.75rem',
