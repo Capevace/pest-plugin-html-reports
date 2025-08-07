@@ -32,7 +32,9 @@
 
 <br />
 
-![What a single test case looks like](./docs/images/explainer-1.png)
+<div align="center">
+	<img src="./docs/images/explainer-1.png" alt="What a single test case looks like" />
+</div>
 
 <br />
 
