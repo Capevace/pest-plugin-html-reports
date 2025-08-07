@@ -26,7 +26,7 @@
 
 <p align="center">
 	<a href="https://mateffy.me/pest-plugin-html-reports/report.html">
-		Generate interactive HTML reports from Pest test results.
+		[View Interactive Example ⇢]
 	</a>
 </p>
 
