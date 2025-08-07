@@ -24,6 +24,12 @@
 
 ![Screenshot showing an example report](./docs/images/screenshot.png)
 
+<p align="center">
+	<a href="https://mateffy.me/pest-plugin-html-reports/report.html">
+		Generate interactive HTML reports from Pest test results.
+	</a>
+</p>
+
 <br />
 
 ## Installation
