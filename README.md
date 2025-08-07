@@ -5,7 +5,7 @@
 		HTML Reports for Pest PHP Tests
 	</h1>
 	<strong>
-		Generate interactive HTML reports directly from your test results to better understand and work with your test suite.
+		Generate interactive HTML reports directly from your test results <br /> to better understand and work with your test suite.
 	</strong>
 </div>
 
