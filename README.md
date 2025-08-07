@@ -4,9 +4,9 @@
 	<h1>
 		HTML Reports for Pest Tests
 	</h1>
-	<h4>
+	<h3>
 		Generate interactive HTML reports from Pest test results.
-	</h4>
+	</h3>
 </div>
 
 <br />
