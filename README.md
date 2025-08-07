@@ -9,6 +9,8 @@
 	</h4>
 </div>
 
+<br />
+
 ## Features
 
 -   Generate static HTML reports from Pest test results JSON
