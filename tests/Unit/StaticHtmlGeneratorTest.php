@@ -9,103 +9,103 @@ use Mateffy\HtmlReports\Services\StaticHtmlGenerator;
 use Spatie\LaravelMarkdown\MarkdownRenderer;
 
 beforeEach(function () {
-	$this->view = Mockery::mock(View::class);
-	$this->view->shouldReceive('render')->andReturn('<html></html>');
+    $this->view = Mockery::mock(View::class);
+    $this->view->shouldReceive('render')->andReturn('<html></html>');
 
-	$this->viewFactory = Mockery::mock(Factory::class);
-	$this->viewFactory->shouldReceive('make')->andReturn($this->view);
+    $this->viewFactory = Mockery::mock(Factory::class);
+    $this->viewFactory->shouldReceive('make')->andReturn($this->view);
 
-	$this->gitHubService = Mockery::mock(GitHubLinkService::class);
-	$this->gitHubService->shouldReceive('setRepository')->andReturnSelf();
+    $this->gitHubService = Mockery::mock(GitHubLinkService::class);
+    $this->gitHubService->shouldReceive('setRepository')->andReturnSelf();
 
-	$this->phpStormService = Mockery::mock(PhpStormLinkService::class);
-	$this->phpStormService->shouldReceive('setProjectPath')->andReturnSelf();
-	$this->phpStormService->shouldReceive('setSelectedEditor')->andReturnSelf();
-	$this->phpStormService->shouldReceive('getAvailableEditors')->andReturn(['phpstorm' => 'PhpStorm']);
+    $this->phpStormService = Mockery::mock(PhpStormLinkService::class);
+    $this->phpStormService->shouldReceive('setProjectPath')->andReturnSelf();
+    $this->phpStormService->shouldReceive('setSelectedEditor')->andReturnSelf();
+    $this->phpStormService->shouldReceive('getAvailableEditors')->andReturn(['phpstorm' => 'PhpStorm']);
 
-	$this->markdownRenderer = Mockery::mock(MarkdownRenderer::class);
+    $this->markdownRenderer = Mockery::mock(MarkdownRenderer::class);
 });
 
 it('can generate html with minimal data', function () {
-	$testResultDto = TestResultDTO::fromArray([
-		'counts' => [],
-		'testSuites' => [],
-	], __DIR__);
+    $testResultDto = TestResultDTO::fromArray([
+        'counts' => [],
+        'testSuites' => [],
+    ], __DIR__);
 
-	$generator = new StaticHtmlGenerator(
-		gitHubService: $this->gitHubService,
-		phpStormService: $this->phpStormService,
-		markdownRenderer: $this->markdownRenderer,
-		viewFactory: $this->viewFactory
-	);
+    $generator = new StaticHtmlGenerator(
+        gitHubService: $this->gitHubService,
+        phpStormService: $this->phpStormService,
+        markdownRenderer: $this->markdownRenderer,
+        viewFactory: $this->viewFactory
+    );
 
-	$html = $generator->generateHtml($testResultDto);
+    $html = $generator->generateHtml($testResultDto);
 
-	expect($html)->toBe('<html></html>');
+    expect($html)->toBe('<html></html>');
 });
 
 it('can generate html from array', function () {
-	$data = [
-		'counts' => [],
-		'testSuites' => [],
-	];
+    $data = [
+        'counts' => [],
+        'testSuites' => [],
+    ];
 
-	$generator = new StaticHtmlGenerator(
-		gitHubService: $this->gitHubService,
-		phpStormService: $this->phpStormService,
-		markdownRenderer: $this->markdownRenderer,
-		viewFactory: $this->viewFactory
-	);
+    $generator = new StaticHtmlGenerator(
+        gitHubService: $this->gitHubService,
+        phpStormService: $this->phpStormService,
+        markdownRenderer: $this->markdownRenderer,
+        viewFactory: $this->viewFactory
+    );
 
-	$html = $generator->generateHtmlFromArray($data);
+    $html = $generator->generateHtmlFromArray($data);
 
-	expect($html)->toBe('<html></html>');
+    expect($html)->toBe('<html></html>');
 });
 
 it('can generate html from json', function () {
-	$json = '{ "counts": [], "testSuites": [] }';
+    $json = '{ "counts": [], "testSuites": [] }';
 
-	$generator = new StaticHtmlGenerator(
-		gitHubService: $this->gitHubService,
-		phpStormService: $this->phpStormService,
-		markdownRenderer: $this->markdownRenderer,
-		viewFactory: $this->viewFactory
-	);
+    $generator = new StaticHtmlGenerator(
+        gitHubService: $this->gitHubService,
+        phpStormService: $this->phpStormService,
+        markdownRenderer: $this->markdownRenderer,
+        viewFactory: $this->viewFactory
+    );
 
-	$html = $generator->generateHtmlFromJson($json);
+    $html = $generator->generateHtmlFromJson($json);
 
-	expect($html)->toBe('<html></html>');
+    expect($html)->toBe('<html></html>');
 });
 
 it('throws exception for invalid json', function () {
-	$json = '{ invalid json }';
+    $json = '{ invalid json }';
 
-	$generator = new StaticHtmlGenerator(
-		gitHubService: $this->gitHubService,
-		phpStormService: $this->phpStormService,
-		markdownRenderer: $this->markdownRenderer,
-		viewFactory: $this->viewFactory
-	);
+    $generator = new StaticHtmlGenerator(
+        gitHubService: $this->gitHubService,
+        phpStormService: $this->phpStormService,
+        markdownRenderer: $this->markdownRenderer,
+        viewFactory: $this->viewFactory
+    );
 
-	$generator->generateHtmlFromJson($json);
+    $generator->generateHtmlFromJson($json);
 })->throws(\InvalidArgumentException::class, 'Invalid JSON data provided');
 
 it('renders markdown in test notes', function () {
-	$data = json_decode(file_get_contents(__DIR__ . '/../fixtures/output_with_notes.json'), true);
-	$testResultDto = TestResultDTO::fromArray($data, __DIR__);
+    $data = json_decode(file_get_contents(__DIR__.'/../fixtures/output_with_notes.json'), true);
+    $testResultDto = TestResultDTO::fromArray($data, __DIR__);
 
-	$this->markdownRenderer->shouldReceive('toHtml')->andReturn('rendered_note');
+    $this->markdownRenderer->shouldReceive('toHtml')->andReturn('rendered_note');
 
-	$generator = new StaticHtmlGenerator(
-		gitHubService: $this->gitHubService,
-		phpStormService: $this->phpStormService,
-		markdownRenderer: $this->markdownRenderer,
-		viewFactory: $this->viewFactory
-	);
+    $generator = new StaticHtmlGenerator(
+        gitHubService: $this->gitHubService,
+        phpStormService: $this->phpStormService,
+        markdownRenderer: $this->markdownRenderer,
+        viewFactory: $this->viewFactory
+    );
 
-	$html = $generator->generateHtml($testResultDto);
+    $html = $generator->generateHtml($testResultDto);
 
-	expect($html)->toBe('<html></html>');
+    expect($html)->toBe('<html></html>');
 
-	$this->markdownRenderer->shouldHaveReceived('toHtml')->with('**Bold Note**');
+    $this->markdownRenderer->shouldHaveReceived('toHtml')->with('**Bold Note**');
 });
