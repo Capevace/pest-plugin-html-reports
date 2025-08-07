@@ -13,12 +13,12 @@
 
 ## Features
 
--   Generate static HTML reports from Pest test results JSON
--   Search UI to find test cases and dig deeper than you ever did before
--   Editor deep links (PhpStorm, VS Code, Sublime Text, Vim)
--   GitHub linking for PRs and issues (using Pest's `->todo(issue: 123)` annotations)
--   Use Markdown in your test case notes (`->note('Note with **bold** text')`)
--   HTML report is completely self-contained in a single file (Tailwind + Alpine from CDN)
+-   📊 Generate static HTML reports from Pest test results JSON
+-   🔍 Search UI to find test cases and dig deeper than you ever did before
+-   🔗 Editor deep links (PhpStorm, VS Code, Sublime Text, Vim)
+-   🐙 GitHub linking for PRs and issues (using Pest's `->todo(issue: 123)` annotations)
+-   📝 Use Markdown in your test case notes (`->note('Note with **bold** text')`)
+-   📦 HTML report is completely self-contained in a single file (Tailwind + Alpine from CDN)
 
 <br />
 
