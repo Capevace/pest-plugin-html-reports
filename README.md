@@ -32,6 +32,10 @@
 
 <br />
 
+![What a single test case looks like](./docs/images/explainer-1.png)
+
+<br />
+
 ## Installation
 
 Install the package via Composer:
