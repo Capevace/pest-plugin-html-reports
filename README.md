@@ -56,12 +56,16 @@ composer require mateffy/pest-plugin-html-reports
 Generate a static HTML report from a test results JSON file:
 
 ```bash
+php artisan test-report:generate
+```
+
+```bash
+# With some extra options
 php artisan test-report:generate \
     --input=storage/app/pest_test_results.json \
     --output=public/pest-report.html \
     --title="My Project Test Results" \
     --project-path=/path/to/your/project \
-    --editor=phpstorm \
     --repository=your-username/your-repo
 ```
 
@@ -81,9 +85,8 @@ You can configure the output directory and filename of the JSON report by settin
 1. A Pest test is run
 2. A pest plugin is used to listen to the test completion event and loads the required data from the Pest internals
 3. The data is then stored as a JSON file per run in the `storage/framework/testing/reports` directory
-4. Depending on your configuration, a HTML report is automatically generated and also stored in the `storage/framework/testing/reports` directory. Optionally you can configure the report to open in your browser automatically.
+4. Depending on your configuration, a HTML report is automatically generated and also stored in the `storage/framework/testing/reports` directory.
 5. Later on, the `artisan test-report:generate` command can be used to generate a static HTML report from any of the historic JSON files
-6. Use the `artisan test-report:open` command to open the latest report in your browser
 
 <br />
 
