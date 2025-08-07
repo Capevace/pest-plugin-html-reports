@@ -1,4 +1,4 @@
-![HTML Reports for Pest Tests](./resources/images/header.png)
+![HTML Reports for Pest Tests](./docs/images/header-1.png)
 
 # HTML Reports for Pest Tests
 
@@ -13,7 +13,7 @@ Generate interactive HTML reports from Pest test results.
 -   Use Markdown in your test case notes (`->note('Note with **bold** text')`)
 -   HTML report is completely self-contained in a single file (Tailwind + Alpine from CDN)
 
-![Screenshot showing an example report](./resources/images/screenshot.png)
+![Screenshot showing an example report](./docs/images/screenshot.png)
 
 ## Installation
 
