@@ -4,8 +4,6 @@
 
 Generate interactive HTML reports from Pest test results.
 
-<br />
-
 ## Features
 
 -   Generate static HTML reports from Pest test results JSON
@@ -20,7 +18,6 @@ Generate interactive HTML reports from Pest test results.
 ![Screenshot showing an example report](./docs/images/screenshot.png)
 
 <br />
-<br />
 
 ## Installation
 
@@ -30,7 +27,7 @@ Install the package via Composer:
 composer require mateffy/pest-plugin-html-reports
 ```
 
-<br /><br />
+<br />
 
 ## Usage
 
@@ -48,6 +45,8 @@ php artisan test-report:generate \
     --repository=your-username/your-repo
 ```
 
+<br />
+
 ### Environment Variables
 
 You can configure the output directory and filename of the JSON report by setting the following environment variables:
@@ -55,7 +54,7 @@ You can configure the output directory and filename of the JSON report by settin
 -   `TEST_REPORT_DIR`: The directory where the JSON report will be saved. Defaults to `storage/framework/testing/reports`.
 -   `TEST_REPORT_FILENAME`: The filename of the JSON report. Defaults to `report-{{date}}-{{id}}.json`. The `{{date}}` and `{{id}}` placeholders will be replaced with the current date and a unique ID.
 
-<br /><br />
+<br />
 
 ## How it works
 
@@ -66,7 +65,7 @@ You can configure the output directory and filename of the JSON report by settin
 5. Later on, the `artisan test-report:generate` command can be used to generate a static HTML report from any of the historic JSON files
 6. Use the `artisan test-report:open` command to open the latest report in your browser
 
-<br /><br />
+<br />
 
 ## License
 
