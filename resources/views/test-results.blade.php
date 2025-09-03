@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+	<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-clipboard@2.x.x/dist/alpine-clipboard.js" defer></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@marcreichel/alpine-auto-animate@latest/dist/alpine-auto-animate.min.js"></script>
     <style>
@@ -142,107 +144,23 @@
             <template x-for="group in processedGroups" :key="group.name">
                 <div class="space-y-2">
                     <!-- Suite Header -->
-                    <div class="border-b border-zinc-800 pb-2 mb-2">
-                        <div class="flex items-center justify-between">
-                            <h2 class="text-sm font-bold text-white uppercase" x-text="group.name"></h2>
-                            <span class="text-sm font-medium text-white" x-text="`${group.filteredCount} / ${group.totalCount} tests`"></span>
-                        </div>
-                    </div>
+					<template x-if="group.tests.length > 0">
+						<div class="border-b border-zinc-800 pb-2 mb-2">
+							<div class="flex items-center justify-between">
+								<h2 class="text-sm font-bold text-white uppercase" x-text="group.name"></h2>
+								<span class="text-sm font-medium text-white" x-text="`${group.filteredCount} / ${group.totalCount} tests`"></span>
+							</div>
+						</div>
+					</template>
 
-                    <!-- Test Cases -->
-                    <div class="space-y-3" x-auto-animate>
-                        <template x-for="test in group.tests" :key="test.name">
-                            <div class="flex items-start gap-4" :class="{'opacity-50': test.todo}">
-                                <div class="w-16 flex-shrink-0 text-right font-bold">
-                                    <template x-if="!test.error && !test.failure && !test.skipped"><span class="text-emerald-500">[PASS]</span></template>
-                                    <template x-if="test.error || test.failure"><span class="text-red-500">[FAIL]</span></template>
-                                    <template x-if="test.skipped"><span class="text-amber-500">[SKIP]</span></template>
-                                </div>
-                                <div class="min-w-0 flex-1">
-                                    <div class="flex items-start justify-between gap-3">
-                                        <div class="min-w-0 flex-1">
-                                            <div class="text-white" x-text="test.test"></div>
-
-                                            <template x-if="test.filePath">
-                                                <div class="text-xs text-zinc-500 mt-1">
-                                                    <a
-                                                        :href="generateDeepLink(test.filePath, test.error ? test.error.line : (test.failure ? test.failure.line : 1))"
-                                                        class="inline-flex items-center gap-1 hover:text-zinc-300 underline"
-                                                        :title="'Open in ' + availableEditors[selectedEditor] + ' at line ' + (test.error ? test.error.line : (test.failure ? test.failure.line : 1))"
-                                                    >
-                                                        <span x-text="test.relativeFilePath + ':' + (test.error ? test.error.line : (test.failure ? test.failure.line : 1))"></span>
-                                                    </a>
-                                                </div>
-                                            </template>
-
-                                            <template x-if="test.notes && test.notes.length > 0">
-                                                <div class="prose prose-sm text-sm text-zinc-400 mt-2">
-                                                    <template x-for="note in test.notes" :key="note">
-                                                        <div x-html="note"></div>
-                                                    </template>
-                                                </div>
-                                            </template>
-
-                                            <template x-if="test.error">
-                                                <div class="mt-2 p-3 bg-red-950/20 border border-red-500/30">
-                                                    <div class="flex items-start gap-2">
-                                                        <div class="text-sm">
-                                                            <div class="font-bold text-red-400" x-text="test.error.message"></div>
-                                                            <div class="text-red-400" x-text="test.error.exceptionClass + ' on line ' + test.error.line"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </template>
-
-                                            <template x-if="test.failure">
-                                                <div class="mt-2 p-3 bg-red-950/20 border border-red-500/30">
-                                                    <div class="flex items-start gap-2">
-                                                        <div class="text-sm">
-                                                            <div class="font-bold text-red-400" x-text="test.failure.message"></div>
-                                                            <div class="text-red-400" x-text="test.failure.exceptionClass + ' on line ' + test.failure.line"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                        </div>
-
-                                        <div class="flex-shrink-0 flex items-end gap-2">
-                                            <div class="flex flex-wrap items-center gap-1 justify-end">
-                                                <template x-if="test.prs">
-                                                    <template x-for="prNumber in test.prs" :key="prNumber">
-                                                        <a :href="generatePullRequestUrl(prNumber)" target="_blank" :title="'View PR #' + prNumber + ' on GitHub'"
-                                                           class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-300 bg-zinc-900 border border-zinc-700 hover:bg-zinc-800">
-                                                            <span x-text="'PR #' + prNumber"></span>
-                                                        </a>
-                                                    </template>
-                                                </template>
-                                                <template x-if="test.assignees">
-                                                    <template x-for="assignee in test.assignees" :key="assignee">
-                                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-300 bg-zinc-900 border border-zinc-700">
-                                                            <span x-text="assignee"></span>
-                                                        </span>
-                                                    </template>
-                                                </template>
-                                                <template x-if="test.issues">
-                                                    <template x-for="issueNumber in test.issues" :key="issueNumber">
-                                                        <a :href="generateIssueUrl(issueNumber)" target="_blank" :title="'View Issue #' + issueNumber + ' on GitHub'"
-                                                           class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-300 bg-zinc-900 border border-zinc-700 hover:bg-zinc-800">
-                                                            <span x-text="'Issue #' + issueNumber"></span>
-                                                        </a>
-                                                    </template>
-                                                </template>
-                                                <template x-if="test.todo">
-                                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-amber-300 bg-amber-900/20 border border-amber-500/30">
-                                                        <span>WIP</span>
-                                                    </span>
-                                                </template>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
+					<template x-if="group.tests.length > 0">
+						<!-- Test Cases -->
+						<div class="space-y-3" x-auto-animate >
+							<template x-for="test in group.tests" :key="test.name">
+								@include('pest-reports::test-result')
+							</template>
+						</div>
+					</template>
                 </div>
             </template>
         </div>
@@ -380,7 +298,91 @@
                     if (repository) return `https://github.com/${repository}/issues/${issueNumber}`;
                     return null;
                 },
-            }
+
+				generateLinearUrl(test) {
+					const base = 'https://linear.new';
+					let description = test.failure.message + ' on line ' + (test.failure.line ?? '?');
+
+					if (test.failure?.message) {
+						description += '\n\n' + test.failure.message;
+					}
+
+					if (test.error?.message) {
+						description += '\n\n' + test.error.message;
+					}
+
+					if (test.failure?.exceptionClass) {
+						description += '\n\n' + test.failure.exceptionClass;
+					}
+					
+					if (test.failure?.line) {
+						description += '\n\n' + 'Line ' + test.failure.line;
+					}
+
+					description = description.substring(0, 1000);
+					description = encodeURIComponent(description);
+
+					return `${base}?title=${encodeURIComponent(test.test)}&description=${description}`;
+				},
+
+				async generateIssue(test) {
+					const response = await fetch('/pest-api/generate-issue', {
+						method: 'POST',
+						body: JSON.stringify({ test }),
+					});
+
+					const issue = await response.json().then(data => {
+						return data.issue;
+					});
+
+					const url = `https://linear.new?title=${encodeURIComponent(issue.title)}&description=${encodeURIComponent(issue.description)}`;
+
+					window.open(url, '_blank');
+				},
+
+				async runAgent(test, id = null) {
+					if (!id) {
+						id = Math.random().toString(36).substring(2, 15);
+					}
+
+					const response = await fetch('/pest-api/run-agent', {
+						method: 'POST',
+						body: JSON.stringify({ test, id }),
+					});
+					
+					const result = await response.json();
+
+					if (result.report.status === 'running') {
+						return new Promise((resolve, reject) => {
+							setTimeout(async () => {
+								const result = await this.runAgent(test, id);
+								resolve(result);
+							}, 1000);
+						});
+					}
+
+					return result;
+				},
+
+				composePrompt(test, task = 'Analyze the Pest test case and respond accordingly.') {
+					return `<instructions>
+	You are a Laravel developer looking at a Pest test case.
+	You are given a test case and a test result.
+
+	Analyze what the best thing to do is in relation to the content of the test case and the test result.
+	Fix broken tests, improve test cases, add more tests, etc.
+
+	It is also perfectly fine to do nothing in which case you should just return "Nothing to do".
+</instructions>
+
+<test-result>
+${JSON.stringify(test, null, 2)}
+</test-result>
+
+<task>${task}</task>
+					`;
+				},
+			};
         }
     </script>
 </body>
