@@ -17,6 +17,7 @@ final class TestRunnerFinishedSubscriber implements FinishedSubscriber
 
 	public function notify(Finished $event): void
 	{
+		file_put_contents('/Users/mat/Downloads/pest-event.json', json_encode($event, JSON_PRETTY_PRINT));
 		$testResult = Facade::result();
 		$resultJsonData = $this->reportGenerator->generate($testResult);
 		$outputFile = getenv('PEST_REPORTS_OUTPUT') ?: 'output.json';

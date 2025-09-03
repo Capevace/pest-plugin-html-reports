@@ -56,7 +56,7 @@ class PestReportsCommand extends Command
 
 			$inputFilename = collect($inputDisk->files())
 				->filter(fn($file) => str_contains($file, 'report-') && str_ends_with($file, '.json'))
-				->sortByDesc(fn($file) => $file)
+				->sortBy(fn($file) => $file)
 				->last();
 
 			if (!$inputFilename) {

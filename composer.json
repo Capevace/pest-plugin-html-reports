@@ -25,7 +25,7 @@
 	},
 	"require": {
 		"php": "^8.1",
-		"prism-php/prism": "^0.88.0",
+		"prism-php/prism": "^0.87.0",
 		"spatie/file-system-watcher": "^1.2",
 		"spatie/laravel-package-tools": "^1.16"
 	},

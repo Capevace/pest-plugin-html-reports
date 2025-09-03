@@ -81,6 +81,11 @@ class ReportGenerator
 									return [];
 								}
 
+								// Replace every character that is not "A-Z01→" with _
+								$identifier = str($testCaseMethod->description)
+									->replaceMatches('/[^A-Za-z0-9→]/', '_')
+									->toString();
+
 								$description = str($testCaseMethod->description)
 									->after('→')
 									->trim()
@@ -89,9 +94,18 @@ class ReportGenerator
 								$error = $isErrored($filename, $testCaseMethod->description);
 								$failed = $isFailed($filename, $testCaseMethod->description);
 
+								$cwd = getcwd();
+								$screenshotPath = "{$cwd}/tests/Browser/screenshots/{$identifier}.png";
+								$screenshots = [];
+
+								if (file_exists($screenshotPath)) {
+									$base64Screenshot = base64_encode(file_get_contents($screenshotPath));
+									$screenshots[] = "data:image/png;base64,{$base64Screenshot}";
+								}
+
 								return [
 									$description => array_filter([
-										'id' => Str::uuid()->toString(),
+										'id' => "{$identifier}-" . Str::uuid()->toString(),
 										'description' => $title,
 										'test' => $description,
 										'filePath' => $filename,
@@ -110,6 +124,7 @@ class ReportGenerator
 										'notes' => ! empty($testCaseMethod->notes)
 											? $testCaseMethod->notes
 											: null,
+										'screenshots' => $screenshots,
 										'skipped' => $isSkipped($filename, $testCaseMethod->description) !== null,
 										'error' => $error
 											? [

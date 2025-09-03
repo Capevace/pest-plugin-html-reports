@@ -12,7 +12,8 @@
 			<div class="min-w-0 flex-1">
 				<div class="flex items-center justify-between gap-2 w-full">
 					<div class="text-white flex-shrink-0" x-text="test.test"></div>
-					<div class="flex-shrink-0">
+					<div class="flex-shrink-0 flex items-center gap-2">
+						
 						{{-- <button
 							type="button"
 							@click.prevent="generateIssue(test)"
@@ -22,6 +23,14 @@
 						</button>
 
 						 --}}
+						 <button
+								type="button"
+								{{-- @click.prevent="navigator.clipboard.writeText(composePrompt(test))" --}}
+								class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-300 bg-zinc-900 border border-zinc-700 hover:bg-zinc-800"
+								x-clipboard="test.id"
+							>
+								<span>Copy ID</span>
+							</button>
 						<div 
 							x-data="{ isOpen: false, openedWithKeyboard: false }" 
 							class="relative w-fit" 
@@ -63,6 +72,11 @@
 									<x-pest-reports::prompt-button 
 										task="Fix all issues of this test case until it passes successfully and reliably."
 										label="Fix all issues"
+									/>
+
+									<x-pest-reports::prompt-button
+										task="Implement the test case in the codebase in a throrough and robust way."
+										label="Implement Test Case"
 									/>
 									<x-pest-reports::prompt-button
 										task="Make the test case more robust and reliable by adding more edge cases, assertions, and test cases."
@@ -120,6 +134,8 @@
 				<template x-if="test.failure">
 					<div 
 						x-data="{
+							expanded: false,
+
 							get message() {
 								if (test.failure.exceptionClass) {
 									return test.failure.exceptionClass + ' on line ' + (test.failure.line ?? '?');
@@ -129,16 +145,41 @@
 									return 'Unknown failure';
 								}
 							},
+
+							get truncatedMessage() {
+								const limit = 1000;
+
+								const message = this.test.failure?.message ?? '';
+							
+								if (this.expanded || message.length < limit) {
+									return message;
+								}
+
+								return message.slice(0, limit) + '...';
+							},
 						}"
 						class="mt-2 p-3 bg-red-950/20 border border-red-500/30"
 					>
 						<div class="flex items-start gap-2">
-							<div class="text-sm">
-							<div class="font-bold text-red-400" x-text="test.failure"></div>
-								<div class="font-bold text-red-400" x-text="test.failure.message"></div>
-								<div class="text-red-400" x-text="message"></div>
+							<div class="flex flex-col gap-1 text-xs">
+								<div class="text-red-400 whitespace-pre-wrap" x-text="truncatedMessage"></div>
+
+								<button type="button" class="text-red-400 text-xs" x-on:click="expanded = !expanded">
+									<span x-text="expanded ? 'Show Less' : 'Show More'"></span>
+									<span x-text="expanded ? '▲' : '▼'"></span>
+								</button>
 							</div>
 						</div>
+					</div>
+				</template>
+
+				<template x-if="test.screenshots">
+					<div class="mt-2 grid md:grid-cols-3 gap-2">
+						<template x-for="screenshot in test.screenshots" :key="screenshot">
+							<div class="p-3 bg-zinc-900/20 border border-zinc-500/30">
+								<img :src="screenshot" alt="Screenshot" class="w-full h-full">
+							</div>
+						</template>
 					</div>
 				</template>
 			</div>
