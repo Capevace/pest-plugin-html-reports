@@ -23,6 +23,7 @@ class ReportPlugin implements AddsOutput
 	{
 		$testResult = $this->testResult ?? TestResultFacade::result();
 		$data = $this->generator->generate($testResult);
+
 		$cwd = getcwd();
 
 		$outputDir = getenv('TEST_REPORT_DIR') ?: "{$cwd}/storage/framework/testing/reports";

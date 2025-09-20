@@ -14,6 +14,8 @@ use PHPUnit\Event\Test\Errored;
 use PHPUnit\Event\Test\Failed;
 use PHPUnit\Event\Test\Skipped;
 use PHPUnit\Event\TestSuite\Skipped as TestSuiteSkipped;
+use PHPUnit\Framework\TestStatus\Incomplete;
+use PHPUnit\Framework\TestStatus\Risky;
 use PHPUnit\Metadata\DataProvider;
 use PHPUnit\TestRunner\TestResult\TestResult;
 
@@ -41,28 +43,41 @@ class ReportGenerator
 
 		$resultJsonData['failed'] = $this->createFailedEventDatas($testResult);
 
+		$incompleteEvents = collect($testResult->testMarkedIncompleteEvents());
+		$riskyEvents = collect($testResult->testConsideredRiskyEvents());
 		$skippedEvents = collect($testResult->testSkippedEvents());
 		$errorEvents = collect($testResult->testErroredEvents());
 		$failedEvents = collect($testResult->testFailedEvents());
 
 		$first = fn($events, string $className, string $methodName) => $events
-			->first(function ($testEvent) use ($className, $methodName) {
+			->first(function ($testEvent) use ($className, $methodName, $events) {
 				$test = invade($testEvent->test());
-				/** @var TestDox $dox */
+				/** @var \PHPUnit\Event\Code\TestDox $dox */
 				$dox = $test->testDox();
 
 				$otherClassName = $dox->prettifiedClassName();
 				$otherMethodName = $dox->prettifiedMethodName();
 
+
 				return $className === $otherClassName && $methodName === $otherMethodName;
 			});
 
+		$isIncomplete = fn(string $className, string $methodName): ?Incomplete => $first($incompleteEvents, $className, $methodName);
+		$isRisky = fn(string $className, string $methodName): ?Risky => $first($riskyEvents, $className, $methodName);
 		$isSkipped = fn(string $className, string $methodName): Skipped|TestSuiteSkipped|null => $first($skippedEvents, $className, $methodName);
 		$isErrored = fn(string $className, string $methodName): ?Errored => $first($errorEvents, $className, $methodName);
 		$isFailed = fn(string $className, string $methodName): ?Failed => $first($failedEvents, $className, $methodName);
 
+		$allEvents = collect([
+			...$incompleteEvents->toArray(),
+			...$riskyEvents->toArray(),
+			...$skippedEvents->toArray(),
+			...$errorEvents->toArray(),
+			...$failedEvents->toArray(),
+		]);
+
 		$testSuites = collect((TestSuite::getInstance())->tests->getFilenames())
-			->mapWithKeys(function (string $filename) use ($isSkipped, $isErrored, $isFailed) {
+			->mapWithKeys(function (string $filename) use ($allEvents, $isSkipped, $isErrored, $isFailed, $isIncomplete, $isRisky) {
 				$case = TestSuite::getInstance()->tests->get($filename);
 
 				$title = collect($case->methods)
@@ -76,7 +91,7 @@ class ReportGenerator
 						'tests' => collect($case->methods)
 							->values()
 							->collect()
-							->mapWithKeys(function (TestCaseMethodFactory $testCaseMethod) use ($isSkipped, $isErrored, $isFailed, $filename, $title) {
+							->mapWithKeys(function (TestCaseMethodFactory $testCaseMethod) use ($allEvents, $isSkipped, $isErrored, $isFailed, $isIncomplete, $isRisky, $filename, $title) {
 								if (empty($testCaseMethod->description)) {
 									return [];
 								}
@@ -85,6 +100,29 @@ class ReportGenerator
 								$identifier = str($testCaseMethod->description)
 									->replaceMatches('/[^A-Za-z0-9→]/', '_')
 									->toString();
+
+								$pest_identifier = str($testCaseMethod->description)
+									->replaceMatches('/[^A-Za-z0-9→]/', '_')
+									->toString();
+
+								$hasEvents = $allEvents->dd()->first(function ($event) use ($identifier) {
+									$test = invade($event->test());
+									/** @var \PHPUnit\Event\Code\TestMethod $testObject */
+									$testObject = invade($test)->object;
+
+									/** @var \PHPUnit\Event\Code\TestDox $dox */
+									$dox = $test->testDox();
+
+									$otherClassName = $dox->prettifiedClassName();
+									$otherMethodName = $dox->prettifiedMethodName();
+									$methodName = str($testObject->methodName())
+										->after('__pest_evaluable_')
+										->replaceMatches('/[^A-Za-z0-9→]/', '_')
+										->toString();
+
+									return $methodName === $otherMethodName && $otherClassName === $identifier;
+								}) !== null;
+
 
 								$description = str($testCaseMethod->description)
 									->after('→')
@@ -126,6 +164,8 @@ class ReportGenerator
 											: null,
 										'screenshots' => $screenshots,
 										'skipped' => $isSkipped($filename, $testCaseMethod->description) !== null,
+										'incomplete' => $isIncomplete($filename, $testCaseMethod->description) !== null,
+										'risky' => $isRisky($filename, $testCaseMethod->description) !== null,
 										'error' => $error
 											? [
 												'message' => $error->throwable()->message(),
@@ -142,7 +182,7 @@ class ReportGenerator
 											: null,
 									]),
 								];
-							}),
+							})
 					]),
 				];
 			})

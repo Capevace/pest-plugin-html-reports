@@ -104,11 +104,11 @@
 					<div class="text-xs text-zinc-500 mt-1">
 						<a
 							:href="generateDeepLink(test.filePath, test.error ? test.error.line : (test.failure ? test.failure.line : 1))"
-							class="inline-flex items-center gap-1 hover:text-zinc-300 underline"
-							:title="'Open in ' + availableEditors[selectedEditor] + ' at line ' + (test.error ? test.error.line : (test.failure ? test.failure.line : 1))"
-						>
-							<span x-text="test.relativeFilePath + ':' + (test.error ? test.error.line : (test.failure ? test.failure.line : 1))"></span>
-						</a>
+							class="truncate line-clamp-1  hover:text-zinc-300 underline"
+							x-bind:title="(test.relativeFilePath ?? test.filePath)"
+							x-tooltip="test.filePath"
+							x-text="(test.relativeFilePath ?? test.filePath) + ':' + (test.error ? test.error.line : (test.failure ? test.failure.line : 1))"
+						></a>
 					</div>
 				</template>
 
@@ -177,7 +177,7 @@
 					<div class="mt-2 grid md:grid-cols-3 gap-2">
 						<template x-for="screenshot in test.screenshots" :key="screenshot">
 							<div class="p-3 bg-zinc-900/20 border border-zinc-500/30">
-								<img :src="screenshot" alt="Screenshot" class="w-full h-full">
+								<img :src="screenshot" alt="Screenshot" class="w-full h-full" loading="lazy">
 							</div>
 						</template>
 					</div>

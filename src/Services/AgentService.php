@@ -66,8 +66,6 @@ class AgentService
 		$result = $process->wait(function ($type, $line) use (&$output, $id) {
 			$output .= $line;
 
-			dd($line);
-
 			cache()->put(self::makeKey($id), [
 				'status' => 'processing',
 				'output' => $output,

@@ -19,7 +19,5 @@ class RunAgentStep implements ShouldQueue
 	public function handle(AgentService $agentService)
 	{
 		$result = $agentService->run($this->id, $this->test);
-
-		dd($result);
 	}
 }
